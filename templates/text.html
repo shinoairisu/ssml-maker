@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>制作器</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-warning" style="margin-bottom: 15px;margin-top: 15px;"
+                    id="back">回首页</button>
+            </div>
+            <div class="col-md-5">
+                <h3>生成SSML的同时，校对文本内容</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <h4>设置总体播讲员：</h4>
+            </div>
+            <div class="col-md-3">
+                <!-- 这行用于选择总体朗读者 -->
+                <select class="form-control" id="ldz">
+                    <option selected="selected" value="zh-CN-XiaoxiaoNeural">晓晓（女） 情感很全</option>
+                    <option value="zh-CN-YunyangNeural">云扬（男） 只有三种情感</option>
+                    <option value="zh-CN-XiaochenNeural">晓晨（女） 无其它情感</option>
+                    <option value="zh-CN-XiaohanNeural">晓涵（女）情感比较全</option>
+                    <option value="zh-CN-XiaomoNeural">晓墨（女）情感很全</option>
+                    <option value="zh-CN-XiaoqiuNeural">晓秋（女）无其它情感</option>
+                    <option value="zh-CN-XiaoruiNeural">晓睿（女）只有四个情感</option>
+                    <option value="zh-CN-XiaoshuangNeural">晓双（女）两个情感</option>
+                    <option value="zh-CN-XiaoxuanNeural">晓萱（女）情感比较全</option>
+                    <option value="zh-CN-XiaoyanNeural">晓颜（女）无其它情感</option>
+                    <option value="zh-CN-XiaoyouNeural">晓悠（女）无其它情感</option>
+                    <option value="zh-CN-YunxiNeural">云希（男）情感比较全</option>
+                    <option value="zh-CN-YunyeNeural">云野（男）情感比较全</option>
+                    <option value="zh-CN-LN-XiaobeiNeural">晓北辽宁 无其它情感</option>
+                    <option value="zh-CN-SC-YunxiNeural">云希四川（男）无其它情感</option>
+                    <option value="zh-CN-YunfengNeural">云枫（男）情感比较全</option>
+                    <option value="zh-CN-YunhaoNeural">云皓（男）一个情感</option>
+                    <option value="zh-CN-YunjianNeural">云健（男）三个情感</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <!-- 这行用于选择朗读情感 -->
+                <select class="form-control" id="ldqg">
+                    <option selected="selected" value="">普通</option>
+                    <option value="assistant">助手</option>
+                    <option value="chat">闲聊</option>
+                    <option value="customerservice">服侍</option>
+                    <option value="newscast">新闻播报</option>
+                    <option value="affectionate">温柔亲切</option>
+                    <option value="angry">生气</option>
+                    <option value="calm">平静</option>
+                    <option value="cheerful">欢快</option>
+                    <option value="disgruntled">不满</option>
+                    <option value="fearful">担心</option>
+                    <option value="gentle">温和文雅</option>
+                    <option value="lyrical">热情奔放</option>
+                    <option value="sad">悲伤</option>
+                    <option value="serious">严肃</option>
+                    <option value="narration-professional">讲故事(专业) 云扬</option>
+                    <option value="newscast-casual">新闻播报(冷淡) 云扬</option>
+                    <option value="embarrassed">犹豫 晓涵</option>
+                    <option value="narration-relaxed">讲故事(轻松) 云希 云健</option>
+                    <option value="Advertisement_upbeat">广告推销(积极)</option>
+                    <option value="Sports_commentary">体育解说</option>
+                    <option value="Sports_commentary_excited">体育解说(激动)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <!-- 这行用于选择朗读速度 -->
+                <select class="form-control" id="ldsd">
+                    <option value="-50%">-5</option>
+                    <option value="-40%">-4</option>
+                    <option value="-30%">-3</option>
+                    <option value="-20%">-2</option>
+                    <option value="-10%">-1</option>
+                    <option value="0%" selected="selected">0</option>
+                    <option value="10%">1</option>
+                    <option value="20%">2</option>
+                    <option value="30%">3</option>
+                    <option value="40%">4</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-warning" id="setting">全体设置</button>
+            </div>
+
+        </div>
+        {% for sec in secs%}
+        <div class="row lines" style="border-style:dashed">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="color: red;">第{{sec.num}}句</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 这行是文本内容 -->
+                        <input type="text" class="form-control speak-class" value="{{sec.line}}"
+                            id="sec{{sec.num}}-text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <p>SSML输出：</p>
+                    </div>
+                    <div class="col-md-11">
+                        <!-- 这是单独输出SSML -->
+                        <textarea class="form-control" rows="7" id="sec{{sec.num}}-ssml"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <p>朗读者：</p>
+                    </div>
+                    <div class="col-md-2">
+                        <!-- 这行用于选择朗读者 -->
+                        <select class="form-control" id="sec{{sec.num}}-ldz">
+                            <option selected="selected" value="zh-CN-XiaoxiaoNeural">晓晓（女） 情感很全</option>
+                            <option value="zh-CN-YunyangNeural">云扬（男） 只有三种情感</option>
+                            <option value="zh-CN-XiaochenNeural">晓晨（女） 无其它情感</option>
+                            <option value="zh-CN-XiaohanNeural">晓涵（女）情感比较全</option>
+                            <option value="zh-CN-XiaomoNeural">晓墨（女）情感很全</option>
+                            <option value="zh-CN-XiaoqiuNeural">晓秋（女）无其它情感</option>
+                            <option value="zh-CN-XiaoruiNeural">晓睿（女）只有四个情感</option>
+                            <option value="zh-CN-XiaoshuangNeural">晓双（女）两个情感</option>
+                            <option value="zh-CN-XiaoxuanNeural">晓萱（女）情感比较全</option>
+                            <option value="zh-CN-XiaoyanNeural">晓颜（女）无其它情感</option>
+                            <option value="zh-CN-XiaoyouNeural">晓悠（女）无其它情感</option>
+                            <option value="zh-CN-YunxiNeural">云希（男）情感比较全</option>
+                            <option value="zh-CN-YunyeNeural">云野（男）情感比较全</option>
+                            <option value="zh-CN-LN-XiaobeiNeural">晓北辽宁 无其它情感</option>
+                            <option value="zh-CN-SC-YunxiNeural">云希四川（男）无其它情感</option>
+                            <option value="zh-CN-YunfengNeural">云枫（男）情感比较全</option>
+                            <option value="zh-CN-YunhaoNeural">云皓（男）一个情感</option>
+                            <option value="zh-CN-YunjianNeural">云健（男）三个情感</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-1">
+                        <p>朗读情感：</p>
+                    </div>
+                    <div class="col-md-2">
+                        <!-- 这行用于选择朗读情感 -->
+                        <select class="form-control" id="sec{{sec.num}}-ldqg">
+                            <option selected="selected" value="">普通</option>
+                            <option value="assistant">助手</option>
+                            <option value="chat">闲聊</option>
+                            <option value="customerservice">服侍</option>
+                            <option value="newscast">新闻播报</option>
+                            <option value="affectionate">温柔亲切</option>
+                            <option value="angry">生气</option>
+                            <option value="calm">平静</option>
+                            <option value="cheerful">欢快</option>
+                            <option value="disgruntled">不满</option>
+                            <option value="fearful">担心</option>
+                            <option value="gentle">温和文雅</option>
+                            <option value="lyrical">热情奔放</option>
+                            <option value="sad">悲伤</option>
+                            <option value="serious">严肃</option>
+                            <option value="narration-professional">讲故事(专业) 云扬</option>
+                            <option value="newscast-casual">新闻播报(冷淡) 云扬</option>
+                            <option value="embarrassed">犹豫 晓涵</option>
+                            <option value="narration-relaxed">讲故事(轻松) 云希 云健</option>
+                            <option value="Advertisement_upbeat">广告推销(积极)</option>
+                            <option value="Sports_commentary">体育解说</option>
+                            <option value="Sports_commentary_excited">体育解说(激动)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-1">
+                        <p>朗读速度：</p>
+                    </div>
+                    <div class="col-md-2">
+                        <!-- 这行用于选择朗读速度 -->
+                        <select class="form-control" id="sec{{sec.num}}-ldsd">
+                            <option value="-50%">-5</option>
+                            <option value="-40%">-4</option>
+                            <option value="-30%">-3</option>
+                            <option value="-20%">-2</option>
+                            <option value="-10%">-1</option>
+                            <option value="0%" selected="selected">0</option>
+                            <option value="10%">1</option>
+                            <option value="20%">2</option>
+                            <option value="30%">3</option>
+                            <option value="40%">4</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <button type="button" class="btn btn-warning" style="margin-bottom: 15px;margin-top: 15px;float: right;"
+            id="maker">获取最终SSML</button>
+        <textarea class="form-control" rows="20" name="text" id="maker-text"></textarea>
+
+    </div>
+
+    <script>
+
+        let head = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">';
+        function chageSSML(num) {
+            if ($("#sec" + num + "-ldqg").val() == "") {
+                $("#sec" + num + "-ssml").text(head + '\n<voice name="' + $("#sec" + num + "-ldz").val() + '">'
+                    + '\n<prosody rate="' + $("#sec" + num + "-ldsd").val() + '" pitch="0%">\n'
+                    + $("#sec" + num + "-text").val()
+                    + '\n</prosody>'
+                    + '\n</voice>'
+                    + '\n</speak>');
+            }
+            else {
+                $("#sec" + num + "-ssml").text(head + '\n<voice name="' + $("#sec" + num + "-ldz").val() + '">'
+                    + '\n<mstts:express-as style="' + $("#sec" + num + "-ldqg").val() + '">'
+                    + '\n<prosody rate="' + $("#sec" + num + "-ldsd").val() + '" pitch="0%">\n'
+                    + $("#sec" + num + "-text").val()
+                    + '\n</prosody>'
+                    + '\n</mstts:express-as>'
+                    + '\n</voice>'
+                    + '\n</speak>');
+            }
+        }
+
+        function getSSML(num) {
+            let textin = ""
+            if ($("#sec" + num + "-ldqg").val() == "") {
+                textin = '<voice name="' + $("#sec" + num + "-ldz").val() + '">'
+                    + '\n<prosody rate="' + $("#sec" + num + "-ldsd").val() + '" pitch="0%">\n'
+                    + $("#sec" + num + "-text").val()
+                    + '\n</prosody>'
+                    + '\n</voice>\n';
+            }
+            else {
+                textin = '<voice name="' + $("#sec" + num + "-ldz").val() + '">'
+                    + '\n<mstts:express-as style="' + $("#sec" + num + "-ldqg").val() + '">'
+                    + '\n<prosody rate="' + $("#sec" + num + "-ldsd").val() + '" pitch="0%">\n'
+                    + $("#sec" + num + "-text").val()
+                    + '\n</prosody>'
+                    + '\n</mstts:express-as>'
+                    + '\n</voice>\n';
+            }
+            return textin;
+        }
+
+
+        $(function () {
+            for (let i = 0; i < $(".lines").length; i++) {
+                chageSSML(i);
+                $("#sec" + i + "-ldz").change(function () {
+                    chageSSML(i);
+                });
+                $("#sec" + i + "-ldqg").change(function () {
+                    chageSSML(i);
+                });
+                $("#sec" + i + "-ldsd").change(function () {
+                    chageSSML(i);
+                });
+                $("#sec" + i + "-text").bind('input propertychange', function () {
+                    chageSSML(i);
+                });
+            }
+            $("#back").click(function () {
+                // 点击这个，回到首页，输入下一段
+                window.location.href = "/";
+            })
+
+            $("#maker").click(function () {
+                // 点击这个，生成完整的SSML
+                texts = head + "\n"
+                for (let i = 0; i < $(".lines").length; i++) {
+                    texts += getSSML(i);
+                }
+                texts += '</speak>';
+                $("#maker-text").text(texts)
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(texts);
+                    alert("生成并复制完成！")
+                }
+            })
+
+            $("#setting").click(function () {
+                for (let i = 0; i < $(".lines").length; i++) {
+                    $("#sec" + i + "-ldz").val($("#ldz").val())
+                    $("#sec" + i + "-ldqg").val($("#ldqg").val())
+                    $("#sec" + i + "-ldsd").val($("#ldsd").val())
+                }
+
+            });
+
+        })
+    </script>
+</body>
+
+</html>

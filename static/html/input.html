@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>入口</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>请输入要制作SSML的语句：</h2>
+        <form action="/maker" method="post">
+            <textarea class="form-control" rows="30" name="text"></textarea>
+            <button type="submit" class="btn btn-primary" style="float:right;margin-top: 15px;">开始制作SSML</button>
+        </form>
+        
+    </div>
+</body>
+
+</html>
